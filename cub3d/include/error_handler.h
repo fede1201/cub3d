@@ -29,6 +29,10 @@
 # define ERR_MEM           "Memory allocation failed"
 # define ERR_UNKNOWN       "Unknown error"
 
+//___________________________________________________________________
+
+# define ERR_WINDOW			"Window creation failed"
+
 # define PRINT_ERR(msg) \
 	do { printf("Error\n%s\n", msg); exit(EXIT_FAILURE); } while (0)
 

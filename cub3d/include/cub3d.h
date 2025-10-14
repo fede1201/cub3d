@@ -13,6 +13,7 @@
 #include "error_handler.h"
 #include "struct_cub_3d.h"
 # include "../libft/libft.h"
+# include "../mlx/mlx.h"
 
 //utils
 
@@ -24,5 +25,10 @@ void    check_args(int argc, char *argv[]);
 //parsing
 
 
+//debug
+void debug_fill_game(t_game *g);
 
+//engine
+
+void start_engine(t_game *g);
 #endif

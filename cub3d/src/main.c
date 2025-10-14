@@ -1,13 +1,14 @@
-#include "include/cub3d.h"
+#include "../include/cub3d.h"
 
 int	main(int argc, char **argv)
 {
-	init_check(argc, argv);
+    (void) argc;
+    (void) argv;
+    t_game g;
+	//init_check(argc, argv);
 
-    cubeApp prova;
-
-    prova.texture.no = "prova";
-
+    debug_fill_game(&g);
+    start_engine(&g);
 
 
 	return (0);
