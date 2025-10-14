@@ -31,7 +31,14 @@
 
 //___________________________________________________________________
 
-# define ERR_WINDOW			"Window creation failed"
+#define ERR_WINDOW        "Cannot create window"
+#define ERR_IMAGE         "Cannot create image buffer"
+#define ERR_IMAGE_ADDR    "Cannot get image data address"
+#define ERR_MLX_INIT      "Mlx initialization failed"
+#define ERR_TEXTURE_LOAD  "Cannot load texture image"
+#define ERR_ZBUFFER 	  "Cannot allocate z-buffer"
+
+
 
 # define PRINT_ERR(msg) \
 	do { printf("Error\n%s\n", msg); exit(EXIT_FAILURE); } while (0)

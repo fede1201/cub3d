@@ -1,84 +1,98 @@
 #ifndef STRUCT_CUB_3D_H
 #define STRUCT_CUB_3D_H
 
-/* Tipi base utili */
-typedef struct s_vec2   { double x, y; }              t_vec2;
-typedef struct s_rgb    { int r, g, b; }              t_rgb;
+typedef struct s_vec2
+{
+    double x;
+    double y;
+} t_vec2;
 
-/* 1) Header */
-typedef struct s_textures {
-    char *no;   // path
+typedef struct s_rgb
+{
+    int r;
+    int g;
+    int b;
+} t_rgb;
+
+typedef struct s_textures
+{
+    char *no;
     char *so;
     char *we;
     char *ea;
-    /* opzionale: popolati dopo il load MLX
-       void *no_img; void *so_img; void *we_img; void *ea_img;
-       int no_w, no_h; // dimensioni texture caricate
-    */
 } t_textures;
 
-typedef struct s_colors {
-    t_rgb floor_rgb;   // F
-    t_rgb ceil_rgb;    // C
+typedef struct s_colors
+{
+    t_rgb floor_rgb;
+    t_rgb ceil_rgb;
 } t_colors;
 
-/* 2) Mappa */
-typedef struct s_map {
-    char  **grid;      // righe "as-is" normalizzate a rettangolo
-    int     width;     // max len riga (spazi compresi)
-    int     height;    // numero righe
-    int     spawn_x;   // cella di spawn
-    int     spawn_y;
-    char    spawn_dir; // 'N','S','E','W'
+typedef struct s_map
+{
+    char **grid;
+    int width;
+    int height;
+    int spawn_x;
+    int spawn_y;
+    char spawn_dir;
 } t_map;
 
-/* 3) Giocatore (stato runtime) */
-typedef struct s_player {
-    t_vec2 pos;        // in coordinate mappa (double)
-    t_vec2 dir;        // direzione vista (unit)
-    t_vec2 plane;      // piano camera (per FOV)
-    double move_speed; // tuning
-    double rot_speed;  // tuning
+typedef struct s_player
+{
+    t_vec2 pos;
+    t_vec2 dir;
+    t_vec2 plane;
+    double move_speed;
+    double rot_speed;
 } t_player;
 
-/* 4) Rendering (runtime) */
-typedef struct s_render {
-    int     screen_w;  // es. 1024
-    int     screen_h;  // es. 768
-    void   *img;       // image buffer MLX corrente
-    char   *addr;      // data ptr della img
-    int     bpp;
-    int     line_len;
-    int     endian;
+typedef struct s_render
+{
+    void     *img;
+    char     *addr;
+    int       bpp;
+    int       line_len;
+    int       endian;
+    int       screen_w;
+    int       screen_h;
+    uint32_t  ceil_px;
+    uint32_t  floor_px;
 } t_render;
 
-/* 5) Assets (immagini caricate) — opzionale separarle dai path */
-typedef struct s_assets {
-    void *tex_img[4];  // 0:NO,1:SO,2:WE,3:EA
-    int   tex_w[4];
-    int   tex_h[4];
-    // Se vuoi, anche addr/bpp/line_len per ogni texture
+typedef struct s_assets
+{
+    void    *tex_img[4];
+    char    *tex_addr[4];
+    int      tex_w[4];
+    int      tex_h[4];
+    int      bpp[4];
+    int      line_len[4];
+    int      endian[4];
 } t_assets;
 
-/* 6) Contenitore globale */
-typedef struct s_game {
-    /* Input/parsing */
-    t_textures  textures;   // paths dall’header
+/* opzionale ma consigliato per input */
+#ifndef KEY_MAX
+# define KEY_MAX 256
+#endif
+
+typedef struct s_game
+{
+    t_textures  textures;
     t_colors    colors;
     t_map       map;
-
-    /* Runtime */
     t_player    player;
     t_render    render;
     t_assets    assets;
 
-    /* MLX */
     void       *mlx;
     void       *win;
 
-    /* Stato/flags utili */
-    int header_ok;   // 1 quando NO/SO/WE/EA/F/C sono validi
-    int map_ok;      // 1 quando la mappa ha passato tutte le validazioni
-} t_game;
+    /* >>> aggiunte per evitare l'errore e preparare i bonus <<< */
+    double     *zbuf;          // z-buffer: length = screen_w
+    int         keys[KEY_MAX]; // stato tasti (press/release)
 
+    int         header_ok;
+    int         map_ok;
+} t_game;
 #endif

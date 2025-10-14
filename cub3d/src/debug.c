@@ -15,10 +15,10 @@ void debug_fill_game(t_game *g)
     memset(g, 0, sizeof(*g));
 
     /* 1) Header “come da Persona B” */
-    g->textures.no = "assets/textures/north.xpm";
-    g->textures.so = "assets/textures/south.xpm";
-    g->textures.we = "assets/textures/west.xpm";
-    g->textures.ea = "assets/textures/east.xpm";
+    g->textures.no = "/Users/federicoluzi/Desktop/cub3d/cub3d/assets/textures/east.xpm";
+    g->textures.so = "/Users/federicoluzi/Desktop/cub3d/cub3d/assets/textures/north.xpm";
+    g->textures.we = "/Users/federicoluzi/Desktop/cub3d/cub3d/assets/textures/south.xpm";
+    g->textures.ea = "/Users/federicoluzi/Desktop/cub3d/cub3d/assets/textures/west.xpm";
 
     g->colors.floor_rgb = (t_rgb){120, 80, 40};
     g->colors.ceil_rgb  = (t_rgb){180, 200, 255};

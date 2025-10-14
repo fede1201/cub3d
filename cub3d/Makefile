@@ -4,11 +4,17 @@ CC          := gcc
 CFLAGS      := -Wall -Wextra -Werror -g -gdwarf-4 -MMD -MP
 INCLUDES    := -I include -I libft -I mlx
 
+# Dove mettere artefatti
+BUILD_DIR   := build
+BIN_DIR     := bin
+
 # ───────── Sources / Objects ─────────
 SRC_DIRS    := src src/engine src/init_check src/parsing src/utils
 SRCS        := $(foreach d,$(SRC_DIRS),$(wildcard $(d)/*.c))
-OBJS        := $(SRCS:.c=.o)
+OBJS        := $(patsubst %.c,$(BUILD_DIR)/%.o,$(SRCS))
 DEPS        := $(OBJS:.o=.d)
+TOTAL       := $(words $(OBJS))
+BAR_WIDTH   ?= 30
 
 # ───────── libft ─────────
 LIBFT_DIR   := libft
@@ -21,44 +27,74 @@ MLX_DIR     := mlx
 MLX_A       := $(MLX_DIR)/libmlx.a
 
 ifeq ($(BACKEND),metal)
-  # macOS + Metal (Apple Silicon o Intel recente)
   MLX_LDFLAGS := -L $(MLX_DIR) -lmlx -framework Cocoa -framework Metal -framework QuartzCore
 else
-  # macOS + OpenGL (Mac non-Metal / legacy)
   MLX_LDFLAGS := -L $(MLX_DIR) -lmlx -framework OpenGL -framework AppKit
 endif
 
-# ───────── Rules ─────────
-.PHONY: all dev clean fclean re mlx libft
+# Evita build parallela: la barra richiede ordine
+.NOTPARALLEL:
 
-all: $(NAME)
+# ───────── Rules ─────────
+.PHONY: all dev clean fclean re mlx libft run prep
+
+all: $(BIN_DIR)/$(NAME)
 
 dev: CFLAGS += -DDEV_STUB
-dev: $(NAME)
+dev: $(BIN_DIR)/$(NAME)
 
-$(NAME): libft mlx $(OBJS)
-	$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) $(LIBFT_A) $(MLX_LDFLAGS) -o $@
+# Inizializza contatori barra
+prep:
+	@mkdir -p $(BUILD_DIR) $(BIN_DIR)
+	@echo $(TOTAL) > $(BUILD_DIR)/.total
+	@echo 0 > $(BUILD_DIR)/.count
+	@printf "Compiling %d files...\n" $(TOTAL)
 
-%.o: %.c
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+# Link finale nel bin/ + newline per chiudere la barra
+$(BIN_DIR)/$(NAME): prep libft mlx $(OBJS)
+	@mkdir -p $(dir $@)
+	@printf "\nLinking %s...\n" $(NAME)
+	@$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) $(LIBFT_A) $(MLX_LDFLAGS) -o $@
+	@printf "✔ Build done: %s\n" $@
+
+# Compilazione: .c -> build/.../.o (+ .d)
+$(BUILD_DIR)/%.o: %.c
+	@mkdir -p $(dir $@)
+	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+	@{ \
+	 cnt=$$(( $$(cat $(BUILD_DIR)/.count 2>/dev/null || echo 0) + 1 )); \
+	 echo $$cnt > $(BUILD_DIR)/.count; \
+	 total=$$(cat $(BUILD_DIR)/.total 2>/dev/null || echo $(TOTAL)); \
+	 width=$(BAR_WIDTH); \
+	 pct=$$(( 100 * $$cnt / $$total )); \
+	 done=$$(( $$cnt * $$width / $$total )); \
+	 remain=$$(( $$width - $$done )); \
+	 printf "\r["; \
+	 printf "%0.s#" $$(seq 1 $$done); \
+	 printf "%0.s " $$(seq 1 $$remain); \
+	 printf "] %3d%% (%d/%d) %-40s" $$pct $$cnt $$total "$<"; \
+	}
 
 libft: $(LIBFT_A)
 $(LIBFT_A):
-	$(MAKE) -C $(LIBFT_DIR)
+	@$(MAKE) -C $(LIBFT_DIR)
 
 mlx: $(MLX_A)
 $(MLX_A):
-	$(MAKE) -C $(MLX_DIR)
+	@$(MAKE) -C $(MLX_DIR) BACKEND=$(BACKEND)
 
 clean:
-	$(RM) $(OBJS) $(DEPS)
-	-$(MAKE) -C $(LIBFT_DIR) clean
-	-$(MAKE) -C $(MLX_DIR) clean
+	@$(RM) -r $(BUILD_DIR)
+	-@$(MAKE) -C $(LIBFT_DIR) clean
+	-@$(MAKE) -C $(MLX_DIR) clean
 
 fclean: clean
-	$(RM) $(NAME)
-	-$(MAKE) -C $(LIBFT_DIR) fclean
+	@$(RM) -r $(BIN_DIR)
+	-@$(MAKE) -C $(LIBFT_DIR) fclean
 
 re: fclean all
 
 -include $(DEPS)
+
+run: $(BIN_DIR)/$(NAME)
+	@./$(BIN_DIR)/$(NAME)
