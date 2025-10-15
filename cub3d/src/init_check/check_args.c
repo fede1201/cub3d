@@ -7,9 +7,9 @@ static int ends_with(const char *s, const char *suffix)
 
     ls = ft_strlen(s);
 	lf = ft_strlen(suffix);
-	if (ls < lf)
+	if (ls < lf) //da controllare se va bene solo il < o serve il <=
         return 0;
-	return (ft_strncmp(s + (ls - lf), suffix, lf) == 0);
+	return (ft_strncmp(s + (ls - lf), suffix, lf) == 0); //devo chiedere all'ing
 }
 
 void	check_args(int argc, char **argv)

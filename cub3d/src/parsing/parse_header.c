@@ -6,7 +6,17 @@ static int valid_map(char **s)
 	int	y;
 
 	i = 0;
-
+	while(s[i][y])
+	{
+		y = 0;
+		while (s[i][y])
+		{
+			if (s[i])
+		
+		}
+		
+	}
+	
 	while (s[i])
 	{
 		y = 0;
@@ -16,7 +26,7 @@ static int valid_map(char **s)
 			s[i][y] != 'N' && s[i][y] != 'S' && s[i][y] != 'E' &&
 			s[i][y] != 'W' && s[i][y] != '\n')
 				return (0);
-			if 
+			//devo continuare
 		}
 	}
 }
