@@ -89,5 +89,8 @@ int	parse_color_id_in_file(t_rgb *dst, char **file, char id)
 		}
 		x++;
 	}
-	return (found ? 1 : 0);
+    if(found)
+        return (1);
+	else 
+        return (0);
 }
