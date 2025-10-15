@@ -23,6 +23,7 @@ uint32_t	rgb_to_u32(int r, int g, int b);
 
 
 //init_check
+void	init_check(t_game *g, int argc, char **argv);
 void    check_args(int argc, char *argv[]);
 
 //parsing

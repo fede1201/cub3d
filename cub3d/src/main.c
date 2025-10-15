@@ -2,11 +2,9 @@
 
 int	main(int argc, char **argv)
 {
-    (void) argc;
-    (void) argv;
     t_game g;
-	//init_check(argc, argv);
 
+	init_check(&g, argc, argv);
     debug_fill_game(&g);
     start_engine(&g);
 

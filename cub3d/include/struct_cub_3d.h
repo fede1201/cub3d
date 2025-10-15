@@ -1,6 +1,8 @@
 #ifndef STRUCT_CUB_3D_H
 #define STRUCT_CUB_3D_H
 
+# define KEY_MAX 256
+
 typedef struct s_vec2
 {
     double x;
@@ -71,11 +73,6 @@ typedef struct s_assets
     int      endian[4];
 } t_assets;
 
-/* opzionale ma consigliato per input */
-#ifndef KEY_MAX
-# define KEY_MAX 256
-#endif
-
 typedef struct s_game
 {
     t_textures  textures;
@@ -84,15 +81,13 @@ typedef struct s_game
     t_player    player;
     t_render    render;
     t_assets    assets;
-
     void       *mlx;
     void       *win;
-
-    /* >>> aggiunte per evitare l'errore e preparare i bonus <<< */
-    double     *zbuf;          // z-buffer: length = screen_w
-    int         keys[KEY_MAX]; // stato tasti (press/release)
-
+    char       **file;
+    double     *zbuf;
+    int         keys[KEY_MAX];
     int         header_ok;
     int         map_ok;
 } t_game;
+
 #endif
