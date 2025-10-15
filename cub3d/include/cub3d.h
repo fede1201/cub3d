@@ -44,23 +44,13 @@ void	destroy_framebuffer(t_game *g);
 void	zbuffer_destroy(t_game *g);
 void	cleanup_game(t_game *g);
 int		hook_close(t_game *g);
-
-/* --- engine/hooks --- */
 int   hook_key_press(int key, t_game *g);
 int   hook_key_release(int key, t_game *g);
 int   hook_close(t_game *g);
 void  hooks_init(t_game *g);
-
-/* --- engine/input --- */
 void  handle_input(t_game *g);
-
-/* --- engine/collision --- */
 int   can_walk(t_game *g, double nx, double ny);
-
-/* --- engine/cleanup --- */
 void  cleanup_game(t_game *g);
-
-/* --- engine/zbuffer (se usi lo zbuf già ora) --- */
 int   zbuffer_create(t_game *g);
 void  zbuffer_destroy(t_game *g);
 

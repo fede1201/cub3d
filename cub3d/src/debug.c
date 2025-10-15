@@ -15,29 +15,50 @@ void debug_fill_game(t_game *g)
     memset(g, 0, sizeof(*g));
 
     /* 1) Header “come da Persona B” */
-    g->textures.no = "/Users/federicoluzi/Desktop/cub3d/cub3d/assets/textures/east.xpm";
-    g->textures.so = "/Users/federicoluzi/Desktop/cub3d/cub3d/assets/textures/north.xpm";
-    g->textures.we = "/Users/federicoluzi/Desktop/cub3d/cub3d/assets/textures/south.xpm";
-    g->textures.ea = "/Users/federicoluzi/Desktop/cub3d/cub3d/assets/textures/west.xpm";
+    g->textures.no = "/Users/federico2/Desktop/cub3d/cub3d/assets/textures/east.xpm";
+    g->textures.so = "/Users/federico2/Desktop/cub3d/cub3d/assets/textures/north.xpm";
+    g->textures.we = "/Users/federico2/Desktop/cub3d/cub3d/assets/textures/south.xpm";
+    g->textures.ea = "/Users/federico2/Desktop/cub3d/cub3d/assets/textures/west.xpm";
 
     g->colors.floor_rgb = (t_rgb){120, 80, 40};
     g->colors.ceil_rgb  = (t_rgb){180, 200, 255};
 
     /* 2) Mappa di test (chiusa), con uno spawn 'N' alla riga 2 colonna 2 (0-based) */
     static const char *raw[] = {
-        "1111111111",
-        "1000000001",
-        "10N0000001",
-        "1110111101",
-        "1000000001",
-        "1000000001",
-        "1000000001",
-        "1111111111",
+        "111111111111111111111111",
+"100000000000000000000001",
+"100000000000000000000001",
+"100000000N00000000000001",
+"100000000000000000000001",
+"100000000000000000000001",
+"100000000000000000000001",
+"100000111110000101010001",
+"100000100010000000000001",
+"100000100010000100010001",
+"100000100010000000000001",
+"100000111100001010100001",
+"100000000000000000000001",
+"100000000000000000000001",
+"100000000000000000000001",
+"100000000000000000000001",
+"100000000000000000000001",
+"100000000000000000000001",
+"100000000000000000000001",
+"111111111000000000000001",
+"100100001000000000000001",
+"100000101000000000000001",
+"100100001000000000000001",
+"100111111000000000000001",
+"100000000000000000000001",
+"100000000000000000000001",
+"111111111111111111111111",
+        
+        
         NULL
     };
 
-    g->map.width  = 10;
-    g->map.height = 8;
+    g->map.width  = 24;
+    g->map.height = 26;
     g->map.grid   = (char**)malloc(sizeof(char*) * g->map.height);
 
     int found_spawn = 0;
