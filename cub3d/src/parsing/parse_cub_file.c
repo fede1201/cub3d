@@ -1,4 +1,4 @@
-#include "cub3d.h"
+#include "../include/cub3d.h"
 
 static int	exit_parse(char **lines, int ret)
 {

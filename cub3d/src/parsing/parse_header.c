@@ -1,4 +1,4 @@
-#include "cub3d.h"
+#include "../include/cub3d.h"
 
 static int	parse_rgb(char *str, t_rgb *color)
 {

@@ -16,16 +16,17 @@ int	main(int argc, char **argv)
 	{
 		// Se il parsing fallisce, pulisci tutto ed esci con codice d'errore.
 		// Assumi free_game_resources gestisce la liberazione di textures, grid, ecc.
-		free_game_resources(&game);
+		//free_game_resources(&game);
 		return (1); 
 	}
 	
 	// 4. Se il parsing ha successo, procedi con l'esecuzione del gioco
 	// init_mlx(&game);
 	// game_loop(&game);
-
+	print_game(&game);
 	// 5. Cleanup finale (se il gioco termina normalmente)
-	free_game_resources(&game);
+	//free_game_resources(&game);
+
 	return (0);
 }
 

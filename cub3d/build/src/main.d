@@ -1,11 +1,10 @@
-build/src/main.o: src/main.c src/../include/cub3d.h \
-  src/../include/error_handler.h src/../include/struct_cub_3d.h \
-  src/../include/raycast.h src/../include/keycodes_mac.h \
-  src/../include/../libft/libft.h src/../include/../mlx/mlx.h
-src/../include/cub3d.h:
-src/../include/error_handler.h:
-src/../include/struct_cub_3d.h:
-src/../include/raycast.h:
-src/../include/keycodes_mac.h:
-src/../include/../libft/libft.h:
-src/../include/../mlx/mlx.h:
+build/src/main.o: src/main.c include/cub3d.h include/error_handler.h \
+  include/struct_cub_3d.h include/raycast.h include/keycodes_mac.h \
+  include/../libft/libft.h include/../mlx/mlx.h
+include/cub3d.h:
+include/error_handler.h:
+include/struct_cub_3d.h:
+include/raycast.h:
+include/keycodes_mac.h:
+include/../libft/libft.h:
+include/../mlx/mlx.h:

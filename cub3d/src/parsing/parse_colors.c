@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -11,10 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../include/cub3d.h"
 
 /* Libera un array di stringhe allocato da ft_split */
-static void	ft_free_split(char **arr)
+void	ft_free_split(char **arr)
 {
 	int	i;
 
@@ -78,30 +77,53 @@ static int	validate_and_set_color(char *value, t_rgb *rgb)
 }
 
 /* Analizza e salva le direttive NO/SO/WE/EA/F/C */
-static int	process_directive(char *line, t_game *g)
+static int  process_directive(char *line, t_game *g)
 {
-	if (!ft_strncmp(line, "NO ", 3))
-		return (g->textures.no ? print_err("Error\nDuplicate NO\n") :
-			(g->textures.no = ft_strtrim(line + 3, " \n")), 0);
-	if (!ft_strncmp(line, "SO ", 3))
-		return (g->textures.so ? print_err("Error\nDuplicate SO\n") :
-			(g->textures.so = ft_strtrim(line + 3, " \n")), 0);
-	if (!ft_strncmp(line, "WE ", 3))
-		return (g->textures.we ? print_err("Error\nDuplicate WE\n") :
-			(g->textures.we = ft_strtrim(line + 3, " \n")), 0);
-	if (!ft_strncmp(line, "EA ", 3))
-		return (g->textures.ea ? print_err("Error\nDuplicate EA\n") :
-			(g->textures.ea = ft_strtrim(line + 3, " \n")), 0);
-	if (!ft_strncmp(line, "F ", 2))
-		return (g->colors.floor_rgb.r != -1 ?
-			print_err("Error\nDuplicate Floor\n") :
-			validate_and_set_color(line + 2, &g->colors.floor_rgb));
-	if (!ft_strncmp(line, "C ", 2))
-		return (g->colors.ceil_rgb.r != -1 ?
-			print_err("Error\nDuplicate Ceiling\n") :
-			validate_and_set_color(line + 2, &g->colors.ceil_rgb));
-	return (print_err("Error\nInvalid directive\n"));
+    if (!ft_strncmp(line, "NO ", 3)) {
+        if (g->textures.no)
+            return print_err("Error\nDuplicate NO\n");
+        g->textures.no = ft_strtrim(line + 3, " \n");
+        if (!g->textures.no)
+            return print_err("Error\nNO alloc failed\n");
+        return 0;
+    }
+    if (!ft_strncmp(line, "SO ", 3)) {
+        if (g->textures.so)
+            return print_err("Error\nDuplicate SO\n");
+        g->textures.so = ft_strtrim(line + 3, " \n");
+        if (!g->textures.so)
+            return print_err("Error\nSO alloc failed\n");
+        return 0;
+    }
+    if (!ft_strncmp(line, "WE ", 3)) {
+        if (g->textures.we)
+            return print_err("Error\nDuplicate WE\n");
+        g->textures.we = ft_strtrim(line + 3, " \n");
+        if (!g->textures.we)
+            return print_err("Error\nWE alloc failed\n");
+        return 0;
+    }
+    if (!ft_strncmp(line, "EA ", 3)) {
+        if (g->textures.ea)
+            return print_err("Error\nDuplicate EA\n");
+        g->textures.ea = ft_strtrim(line + 3, " \n");
+        if (!g->textures.ea)
+            return print_err("Error\nEA alloc failed\n");
+        return 0;
+    }
+    if (!ft_strncmp(line, "F ", 2)) {
+        if (g->colors.floor_rgb.r != -1)
+            return print_err("Error\nDuplicate Floor\n");
+        return validate_and_set_color(line + 2, &g->colors.floor_rgb);
+    }
+    if (!ft_strncmp(line, "C ", 2)) {
+        if (g->colors.ceil_rgb.r != -1)
+            return print_err("Error\nDuplicate Ceiling\n");
+        return validate_and_set_color(line + 2, &g->colors.ceil_rgb);
+    }
+    return print_err("Error\nInvalid directive\n");
 }
+
 
 /* Legge le 6 direttive e ritorna l'indice d'inizio mappa */
 int	parse_header(char **lines, t_game *g)
@@ -129,34 +151,3 @@ int	parse_header(char **lines, t_game *g)
 		return (print_err("Error\nMissing directives\n"), -1);
 	return (i);
 }
-=======
-#include "../include/cub3d.h"
-
-int	parse_floor_color(t_game *g, char **file)
-{
-	int	ret;
-
-	ret = parse_color_id_in_file(&g->colors.floor_rgb, file, 'F');
-	if (ret == 1)
-		return (1);
-	if (ret == -1)
-		PRINT_ERR(ERR_DUP_ID);
-	else
-		PRINT_ERR(ERR_MISS_ID);
-	return (0);
-}
-
-int	parse_ceiling_color(t_game *g, char **file)
-{
-	int	ret;
-
-	ret = parse_color_id_in_file(&g->colors.ceil_rgb, file, 'C');
-	if (ret == 1)
-		return (1);
-	if (ret == -1)
-		PRINT_ERR(ERR_DUP_ID);
-	else
-		PRINT_ERR(ERR_MISS_ID);
-	return (0);
-}
->>>>>>> ca270282ea8b3b33211fa53ddfec719ddfeb1edb

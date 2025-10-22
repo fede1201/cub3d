@@ -1,4 +1,4 @@
-#include "cub3d.h"
+#include "../include/cub3d.h"
 
 // Max 25 righe
 static void	init_player_and_map(t_game *game)

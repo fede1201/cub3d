@@ -1,6 +1,4 @@
-#include "cub3d.h"
-#include <fcntl.h>
-#include <unistd.h>
+#include "../include/cub3d.h"
 
 //1Flusso logico corretto
 

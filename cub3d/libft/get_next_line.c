@@ -1,4 +1,4 @@
-#include "get_next_line.h"
+#include "libft.h"
 
 static char	*update_line(char *line)
 {

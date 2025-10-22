@@ -28,6 +28,7 @@ int         is_pure_num(const char *s);
 //init_check
 void	    init_check(t_game *g, int argc, char **argv);
 void        check_args(int argc, char *argv[]);
+void	check_open_and_valid(const char *path);
 
 //read lines
 char        **read_all_lines(char *path);
@@ -60,6 +61,41 @@ int         can_walk(t_game *g, double nx, double ny);
 void        cleanup_game(t_game *g);
 int         zbuffer_create(t_game *g);
 void        zbuffer_destroy(t_game *g);
+
+
+// utils stamp
+void print_game(t_game *g);
+
+/* read_map.c */
+char    **read_all_lines(char *path);
+
+/* parse_cub_file.c */
+int     parse_cub_file(char *path, t_game *game);
+
+/* parse_header.c */
+int     parse_header(char **lines, t_game *game);
+
+/* parse_map.c */
+int     parse_map(char **lines, t_map *map);
+int     validate_map(t_map *map);
+
+/* init_struct.c */
+void    init_game_struct(t_game *game);
+
+// int     validate_map(t_map *m);
+
+// /* utils_parsing.c */
+// void    free_lines(char **lines);
+void    ft_free_split(char **arr);
+int     ft_is_empty_line(char *s);
+
+// /* errors.c */
+// int     print_err(char *msg);
+
+// /* cleanup.c */
+// void    free_all(t_game *g
+
+void init_player(t_player *p, t_map *m);
 
 
 #endif
