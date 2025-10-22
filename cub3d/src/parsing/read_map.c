@@ -1,65 +1,57 @@
 #include "cub3d.h"
 #include <fcntl.h>
 #include <unistd.h>
-#include <stdlib.h>
 
-// Libera tutte le righe e l’array
-void	free_lines(char **lines)
+//1Flusso logico corretto
+
+//2Apre il file .cub.
+
+//3Legge tutte le righe.
+
+//4Le memorizza in una lista.
+
+//5Converte la lista in char **lines.
+
+//6Ritorna l’array per il parsing successivo.
+
+static int	count_lines(t_list *lst)
 {
-	int	i;
+	int	count;
 
-	if (!lines)
-		return ;
-	i = 0;
-	while (lines[i])
+	count = 0;
+	while (lst)
 	{
-		free(lines[i]);
-		i++;
+		count++;
+		lst = lst->next;
 	}
-	free(lines);
+	return (count);
 }
 
-// Aggiunge una nuova riga all’array esistente
-static char	**append_line(char **lines, char *line)
-{
-	int		i;
-	char	**new;
-
-	i = 0;
-	while (lines && lines[i])
-		i++;
-	new = malloc(sizeof(char *) * (i + 2));
-	if (!new)
-		return (free_lines(lines), NULL);
-	i = 0;
-	while (lines && lines[i])
-	{
-		new[i] = lines[i];
-		i++;
-	}
-	new[i] = line;
-	new[i + 1] = NULL;
-	free(lines);
-	return (new);
-}
-
-// Legge tutte le righe del file e le restituisce come array di stringhe
 char	**read_all_lines(char *path)
 {
 	int		fd;
 	char	*line;
+	t_list	*lst;
 	char	**lines;
+	int		i;
 
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
-		return (NULL);
-	lines = NULL;
-	while ((line = get_next_line(fd)) != NULL)
-	{
-		lines = append_line(lines, line);
-		if (!lines)
-			return (close(fd), NULL);
-	}
+		return (print_err("Error\nCannot reopen file\n"), NULL);
+	lst = NULL;
+	while ((line = get_next_line(fd)))
+		ft_lstadd_back(&lst, ft_lstnew(line));
 	close(fd);
+	lines = malloc((count_lines(lst) + 1) * sizeof(char *));
+	if (!lines)
+		return (ft_lstclear(&lst, free), print_err("Error\nMalloc failed\n"), NULL);
+	i = 0;
+	while (lst)
+	{
+		lines[i++] = lst->content;
+		lst = lst->next;
+	}
+	lines[i] = NULL;
+	ft_lstclear(&lst, NULL);
 	return (lines);
 }

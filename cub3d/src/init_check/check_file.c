@@ -18,7 +18,7 @@ void	check_open_and_valid(const char *path)
 	}
 	if (n < 0)
     {
-		if (errno == EISDIR)
+		if (errno == EISDIR)	
         {
 			close(fd);
 			PRINT_ERR(ERR_IS_DIR);
